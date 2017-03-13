@@ -29,7 +29,8 @@
         <dependency>
             <groupId>com.ibm.db2.jcc</groupId>
             <artifactId>db2jcc4</artifactId>
-            <version>10.1</version>
+<!--           <version>10.1</version> -->
+            <version>4.22.29</version>
         </dependency>
         <dependency>
             <groupId>com.ibm.db2</groupId>
