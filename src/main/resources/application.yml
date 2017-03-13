@@ -1,0 +1,27 @@
+spring.profiles.default: default
+########################################################################################################################
+# DEFAULT
+########################################################################################################################
+---
+spring.profiles: default
+#logging:
+#  config: classpath:logback.xml
+
+spring:
+# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:${user.home}/.example/camundapoc/database/db
+    username: sa
+    password:
+
+---
+spring.profiles: db2
+
+spring:
+# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    driver-class-name: com.ibm.db2.jcc.DB2Driver
+    url: jdbc:db2://127.0.0.1:50000/SAMPLE
+    username: sa
+    password:
