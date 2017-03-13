@@ -27,7 +27,7 @@
 
         <!-- DB2 -->
         <dependency>
-            <groupId>com.ibm.db2.jcc</groupId>
+            <groupId>com.ibm.db2.db2jcc4</groupId>
             <artifactId>db2jcc4</artifactId>
 <!--           <version>10.1</version> -->
             <version>4.22.29</version>
@@ -80,7 +80,7 @@
         </plugins>
     </build>
 
-    <repositories>
+<!--    <repositories>
         <repository>
             <id>camunda-extensions-nexus</id>
             <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-community-extensions-snapshots</url>
@@ -113,6 +113,6 @@
             </snapshots>
         </repository>
 
-    </repositories>
+    </repositories>-->
 
 </project>
