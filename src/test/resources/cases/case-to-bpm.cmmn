@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cmmn:definitions xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/cmmn" id="Test" targetNamespace="http://bpmn.io/schema/cmmn" exporter="Camunda Modeler" exporterVersion="1.7.1">
+  <cmmn:case id="TestCasePlan" name="Test Case Plan">
+    <cmmn:casePlanModel id="CasePlanModel_1" name="A CasePlanModel">
+      <cmmn:planItem id="PlanItem_0rh0pt9" name="Run Rules" definitionRef="DecisionTask_0oj5tqz">
+        <cmmn:itemControl id="PlanItemControl_0xfxae9" />
+      </cmmn:planItem>
+      <cmmn:planItem id="PlanItem_0kzdy4g" name="Verify Rule Result" definitionRef="HumanTask_04qzoil">
+        <cmmn:entryCriterion id="EntryCriterion_0myixg7" sentryRef="Sentry_1qfveyu" />
+      </cmmn:planItem>
+      <cmmn:planItem id="callBPM" name="Call BPM" definitionRef="ProcessTask_0dudmgz">
+        <cmmn:itemControl id="PlanItemControl_1c0ui3f" />
+      </cmmn:planItem>
+      <cmmn:sentry id="Sentry_1qfveyu">
+        <cmmn:planItemOnPart id="PlanItemOnPart_1ei2gux" sourceRef="PlanItem_0rh0pt9">        <cmmn:standardEvent>complete</cmmn:standardEvent>
+</cmmn:planItemOnPart>
+      </cmmn:sentry>
+      <cmmn:processTask id="ProcessTask_0dudmgz" processRef="SimpleProcess">
+        <cmmn:extensionElements />
+      </cmmn:processTask>
+      <cmmn:decisionTask id="DecisionTask_0oj5tqz" decisionRef="decisionTableKey" camunda:resultVariable="ruleResult">
+        <cmmn:extensionElements />
+      </cmmn:decisionTask>
+      <cmmn:humanTask id="HumanTask_04qzoil" />
+    </cmmn:casePlanModel>
+  </cmmn:case>
+  <cmmndi:CMMNDI>
+    <cmmndi:CMMNDiagram id="TestCase" name="Test Case">
+      <cmmndi:Size xsi:type="dc:Dimension" width="500" height="500" />
+      <cmmndi:CMMNShape id="DI_CasePlanModel_1" cmmnElementRef="CasePlanModel_1">
+        <dc:Bounds x="114" y="63" width="523" height="394" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_1w7w2pz_di" cmmnElementRef="PlanItem_0rh0pt9">
+        <dc:Bounds x="305" y="96" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_1j7kbff_di" cmmnElementRef="PlanItem_0kzdy4g">
+        <dc:Bounds x="479" y="290" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_0g25035_di" cmmnElementRef="callBPM">
+        <dc:Bounds x="150" y="96" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="EntryCriterion_0myixg7_di" cmmnElementRef="EntryCriterion_0myixg7">
+        <dc:Bounds x="469" y="318" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="PlanItemOnPart_1ei2gux_di" cmmnElementRef="PlanItemOnPart_1ei2gux" targetCMMNElementRef="EntryCriterion_0myixg7" isStandardEventVisible="true">
+        <di:waypoint xsi:type="dc:Point" x="405" y="136" />
+        <di:waypoint xsi:type="dc:Point" x="437" y="136" />
+        <di:waypoint xsi:type="dc:Point" x="437" y="332" />
+        <di:waypoint xsi:type="dc:Point" x="469" y="332" />
+        <cmmndi:CMMNLabel>
+          <dc:Bounds x="443" y="200.5" width="50" height="12" />
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNEdge>
+    </cmmndi:CMMNDiagram>
+  </cmmndi:CMMNDI>
+</cmmn:definitions>

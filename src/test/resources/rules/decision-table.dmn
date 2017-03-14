@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="decisionDefKey" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decisionTableKey" name="Decision Table">
+    <extensionElements>
+      <biodi:bounds x="200" y="200" width="180" height="80" />
+    </extensionElements>
+    <decisionTable id="decisionTable">
+      <input id="input1" label="Integer Value to Check" camunda:inputVariable="numberToCheck">
+        <inputExpression id="inputExpression1" typeRef="integer">        <text>startVariable</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="How does it compare?" name="rulesResult" typeRef="string">
+        <outputValues id="UnaryTests_1svcue9">        <text></text>
+</outputValues>
+      </output>
+      <rule id="row-772025632-1">
+        <description>Its big</description>
+        <inputEntry id="UnaryTests_157h7xo">        <text><![CDATA[> 10]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1armjf9">        <text><![CDATA["Value is bigger than 10"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-772025632-2">
+        <description>Its the same</description>
+        <inputEntry id="UnaryTests_1ibjztm">        <text>10</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1grz8wm">        <text><![CDATA["Value is equal to 10"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-772025632-3">
+        <description>Its small</description>
+        <inputEntry id="UnaryTests_1s778yj">        <text><![CDATA[< 10]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_116ocy1">        <text><![CDATA["Value is smaller than 10"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

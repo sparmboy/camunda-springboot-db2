@@ -15,6 +15,12 @@ spring:
     username: sa
     password:
 
+workflow:
+  processes: processes/example.bpmn
+
+########################################################################################################################
+# DB2
+########################################################################################################################
 ---
 spring.profiles: db2
 
@@ -25,3 +31,11 @@ spring:
     url: jdbc:db2://127.0.0.1:50000/SAMPLE
     username: sa
     password:
+
+########################################################################################################################
+# TEST-RESOURCES
+########################################################################################################################
+---
+spring.profiles: test-resources
+workflow:
+  resources: processes/simple.bpmn,processes/bpm-to-case.bpmn,cases/case-to-bpm.cmmn,rules/decision-table.dmn

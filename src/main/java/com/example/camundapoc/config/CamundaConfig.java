@@ -16,8 +16,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
+ * Initialises all the configuration custom for Camunda
+ *
  * Created by spencer on 13/03/2017.
  */
 @Configuration
@@ -29,6 +34,9 @@ public class CamundaConfig {
     @Value("${spring.datasource.username}")String dbUsername;
     @Value("${spring.datasource.password}")String dbPassword;
 
+
+    @Value("${workflow.resources:}")
+    String resourcesToDeploy;
 
     @Bean
     public DataSource dataSource() {
@@ -59,7 +67,14 @@ public class CamundaConfig {
         processEngineConfiguration.setTransactionManager(transactionManager());
 
         // Specify where to look for process definitions
-        processEngineConfiguration.setDeploymentResources(new ClassPathResource[]{new ClassPathResource("processes/example.bpmn")});
+        List<ClassPathResource> resources = Arrays.asList(resourcesToDeploy.split(","))
+                .stream()
+                .map(resourceName -> {
+                    return new ClassPathResource(resourceName);
+                })
+                .collect(Collectors.toList())
+                ;
+        processEngineConfiguration.setDeploymentResources(resources.toArray(new ClassPathResource[]{}));
 
         return processEngineConfiguration;
     }
