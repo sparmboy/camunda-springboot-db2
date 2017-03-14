@@ -15,7 +15,16 @@
     </logger>
 
       <logger name="org.camunda">
+        <level value="WARN"/>
+    </logger>
+
+    <!-- Debug JPA SQL queries -->
+    <logger name="org.hibernate.SQL">
         <level value="DEBUG"/>
+    </logger>
+    <!-- Debug JPA SQL parameter values -->
+    <logger name="org.hibernate.type">
+        <level value="WARN"/>
     </logger>
 
 

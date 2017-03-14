@@ -1,5 +1,6 @@
 package com.example.camundapoc;
 
+import com.example.camundapoc.database.hibernate.repositories.ResultEntityRepository;
 import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.runtime.CaseInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -48,6 +49,9 @@ public abstract class BaseIntegrationTest {
     @Autowired
     protected TaskService taskService;
 
+    @Autowired
+    protected ResultEntityRepository resultEntityRepo;
+
     @Before
     public void deleteAllProcesses() {
         LOGGER.info("Deleting all process instances");
@@ -66,6 +70,12 @@ public abstract class BaseIntegrationTest {
                 caseService.terminateCaseExecution(inst.getId());
             }
         }
+    }
+
+    @Before
+    public void deleteAllEntities() {
+        LOGGER.info("Deleting all entities for repositories");
+        resultEntityRepo.deleteAll();
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.camundapoc.config;
+package com.example.camundapoc.config.workflow;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
@@ -29,26 +29,15 @@ import java.util.stream.Collectors;
 @EnableTransactionManagement
 public class CamundaConfig {
 
-    @Value("${spring.datasource.driver-class-name}")String dbDriver;
-    @Value("${spring.datasource.url}")String dbUrl;
-    @Value("${spring.datasource.username}")String dbUsername;
-    @Value("${spring.datasource.password}")String dbPassword;
-
 
     @Value("${workflow.resources:}")
     String resourcesToDeploy;
 
-    @Bean
-    public DataSource dataSource() {
-        BoneCPDataSource dataSource = new BoneCPDataSource();
+    @Autowired
+    DataSource dataSource;
 
-        dataSource.setDriverClass(dbDriver);
-        dataSource.setJdbcUrl(dbUrl);
-        dataSource.setUsername(dbUsername);
-        dataSource.setPassword(dbPassword);
-
-        return dataSource;
-    }
+    @Autowired
+    PlatformTransactionManager transactionManager;
 
     @Bean
     public StrongUuidGenerator uuidGenerator() {
@@ -62,9 +51,9 @@ public class CamundaConfig {
         // Enable UUID generation
         processEngineConfiguration.setIdGenerator(uuidGenerator());
 
-        processEngineConfiguration.setDataSource(dataSource());
+        processEngineConfiguration.setDataSource(dataSource);
         processEngineConfiguration.setDatabaseSchemaUpdate("true");
-        processEngineConfiguration.setTransactionManager(transactionManager());
+        processEngineConfiguration.setTransactionManager(transactionManager);
 
         // Specify where to look for process definitions
         List<ClassPathResource> resources = Arrays.asList(resourcesToDeploy.split(","))
@@ -79,8 +68,5 @@ public class CamundaConfig {
         return processEngineConfiguration;
     }
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
+
 }

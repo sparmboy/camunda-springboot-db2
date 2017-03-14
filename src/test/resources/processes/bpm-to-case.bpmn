@@ -10,7 +10,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1n3irnw" sourceRef="Task_0t9tx18" targetRef="EndEvent_0pl2yws" />
     <bpmn:sequenceFlow id="SequenceFlow_1o0cj4k" sourceRef="StartEvent_1" targetRef="Task_0vuru4y" />
     <bpmn:sequenceFlow id="SequenceFlow_17l4ofp" sourceRef="Task_0vuru4y" targetRef="Task_1mvkzvd" />
-    <bpmn:serviceTask id="Task_0t9tx18" name="Execute Service" camunda:expression="${testServiceBean.setResult(rulesResultList)}">
+    <bpmn:serviceTask id="Task_0t9tx18" name="Execute Service" camunda:expression="${resultEntityService.createResultEntity(rulesResultList.get(0).get(&#34;rulesResult&#34;))}">
       <bpmn:incoming>SequenceFlow_05zswa5</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1n3irnw</bpmn:outgoing>
     </bpmn:serviceTask>

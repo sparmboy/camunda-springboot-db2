@@ -1,11 +1,11 @@
 package com.example.camundapoc.processes;
 
 import com.example.camundapoc.BaseIntegrationTest;
-import com.example.camundapoc.service.TestServiceBean;
+import com.example.camundapoc.domain.ResultEntity;
+import com.example.camundapoc.service.ResultEntityService;
 import org.camunda.bpm.engine.runtime.CaseInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.cmmn.instance.Case;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,10 +27,9 @@ public class CaseToBpmToCaseIntegrationTest extends BaseIntegrationTest {
     private static final String SIMPLE_PROCESS_KEY = "SimpleProcess";
     private static final String TEST_CASE_KEY = "TestCasePlan";
     private static final String START_VARIABLE = "startVariable";
-    private static final String CALL_BPM_TASK_KEY = "callBPM";
 
     @Autowired
-    private TestServiceBean testServiceBean;
+    private ResultEntityService resultEntityService;
 
     @Test
     public void shouldStartTestProcess() {
@@ -64,7 +63,9 @@ public class CaseToBpmToCaseIntegrationTest extends BaseIntegrationTest {
         assertCaseEndedByCaseInstanceId(caseInst.getId());
 
         // Finally the service in the original process should now have been called
-        assertEquals("Value is smaller than 10" ,testServiceBean.getResult());
+        assertEquals(1,resultEntityRepo.count());
+        ResultEntity resultEntity = resultEntityRepo.findAll().iterator().next();
+        assertEquals("Value is smaller than 10" , resultEntity.getResult());
     }
 
 
