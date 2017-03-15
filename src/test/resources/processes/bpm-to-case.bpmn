@@ -16,7 +16,9 @@
     </bpmn:serviceTask>
     <bpmn:callActivity id="Task_0vuru4y" name="Start Case" camunda:caseRef="TestCasePlan">
       <bpmn:extensionElements>
-        <camunda:in source="${startVariable}" target="startVariable" />
+        <camunda:in source="valueToTest" target="valueToTest" />
+        <camunda:in sourceExpression="${false}" target="doRuleExecution" />
+        <camunda:in sourceExpression="${false}" target="bobSaysYes" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1o0cj4k</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_17l4ofp</bpmn:outgoing>

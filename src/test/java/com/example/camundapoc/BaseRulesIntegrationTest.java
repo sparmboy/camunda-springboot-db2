@@ -31,7 +31,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnitParamsRunner.class)
 public abstract class BaseRulesIntegrationTest extends BaseIntegrationTest {
 
-    private static final String START_VARIABLE = "startVariable";
+    private static final String START_VARIABLE = "valueToTest";
     private static final String OUTPUT_VAR_NAME = "rulesResult";
 
     @ClassRule

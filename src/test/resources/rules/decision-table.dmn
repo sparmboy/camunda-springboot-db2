@@ -6,7 +6,7 @@
     </extensionElements>
     <decisionTable id="decisionTable">
       <input id="input1" label="Integer Value to Check" camunda:inputVariable="numberToCheck">
-        <inputExpression id="inputExpression1" typeRef="integer">        <text>startVariable</text>
+        <inputExpression id="inputExpression1" typeRef="integer">        <text>valueToTest</text>
 </inputExpression>
       </input>
       <output id="output1" label="How does it compare?" name="rulesResult" typeRef="string">

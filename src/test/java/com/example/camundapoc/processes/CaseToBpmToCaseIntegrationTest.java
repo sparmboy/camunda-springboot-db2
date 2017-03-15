@@ -13,6 +13,7 @@ import java.util.AbstractMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Test suite for proving Camunda Process Instance can call out to start a Case
@@ -26,7 +27,12 @@ public class CaseToBpmToCaseIntegrationTest extends BaseIntegrationTest {
     private static final String TEST_PROCESS_KEY = "TestProcess";
     private static final String SIMPLE_PROCESS_KEY = "SimpleProcess";
     private static final String TEST_CASE_KEY = "TestCasePlan";
-    private static final String START_VARIABLE = "startVariable";
+    private static final String DUMMY_CASE_KEY = "dummyCase";
+    private static final String VALUE_TO_TEST = "valueToTest";
+    private static final String BOB_SAYS_YES_VARIABLE = "bobSaysYes";
+    private static final String DO_RULE_EXECUTION_VARIABLE = "doRuleExecution";
+    private static final String ASK_BOB_TEST_KEY = "askBob";
+    private static final String VERIFY_RULE_RESULT_TASK_DEF = "verifyRuleResult";
 
     @Autowired
     private ResultEntityService resultEntityService;
@@ -40,9 +46,8 @@ public class CaseToBpmToCaseIntegrationTest extends BaseIntegrationTest {
         // Start the process
         ProcessInstance procInst = startProcessByKey(
                 TEST_PROCESS_KEY,
-                new AbstractMap.SimpleEntry<>(START_VARIABLE,testValue)
+                new AbstractMap.SimpleEntry<>(VALUE_TO_TEST,testValue)
                 );
-        assertNotNull( procInst );
 
         // Check that the case was started.
         assertEquals(1, getActiveCaseInstanceCountByKey(TEST_CASE_KEY));
@@ -51,14 +56,21 @@ public class CaseToBpmToCaseIntegrationTest extends BaseIntegrationTest {
         // Check that the simple BPM process was called from the case. Complete the task inside
         assertEquals(1,getProcessInstanceCountByKey(SIMPLE_PROCESS_KEY));
         Task task = getActiveTaskInProcessByProcDefKey(SIMPLE_PROCESS_KEY);
-        assertNotNull(task);
 
-        // Complete the task in the simple process and that should trigger the rules in the case
-        completeTask(task.getId());
+        // Complete the task in the simple process and set the rules to be
+        completeTask(task.getId(),
+                new AbstractMap.SimpleEntry<String, Object>(DO_RULE_EXECUTION_VARIABLE,true));
+
+        // Complete the Ask Bob task next so that both conditions for the decision table entry are now set
+        // so the rules should be run next
+        task = getActiveTaskByTaskDefKey(ASK_BOB_TEST_KEY);
+        completeTask(
+                task.getId(),
+                new AbstractMap.SimpleEntry<String, Object>(BOB_SAYS_YES_VARIABLE,true)
+        );
 
         // Complete the verify rule result task and check the case has ended
-        task = getActiveTaskInCaseByCaseDefKey(TEST_CASE_KEY);
-        assertNotNull(task);
+        task = getActiveTaskByTaskDefKey(VERIFY_RULE_RESULT_TASK_DEF);
         completeTask(task.getId());
         assertCaseEndedByCaseInstanceId(caseInst.getId());
 
@@ -67,7 +79,4 @@ public class CaseToBpmToCaseIntegrationTest extends BaseIntegrationTest {
         ResultEntity resultEntity = resultEntityRepo.findAll().iterator().next();
         assertEquals("Value is smaller than 10" , resultEntity.getResult());
     }
-
-
-
 }

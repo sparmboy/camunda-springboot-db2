@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -74,6 +75,7 @@ public abstract class BaseIntegrationTest {
 
     @Before
     public void deleteAllEntities() {
+        ManagementService ms;
         LOGGER.info("Deleting all entities for repositories");
         resultEntityRepo.deleteAll();
     }
@@ -91,7 +93,26 @@ public abstract class BaseIntegrationTest {
         for (AbstractMap.SimpleEntry<String, Object> var : variableValues) {
             vars.put(var.getKey(), var.getValue());
         }
-        return runtimeService.startProcessInstanceByKey(procDefKey, vars);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(procDefKey, vars);
+        assertNotNull(processInstance);
+        return processInstance;
+    }
+
+    /**
+     * Helper wrapper for starting a case specified by the case definition key and array of variable values. The created case instance is returned
+     *
+     * @param caseDefKey
+     * @param variableValues
+     * @return The process instance created
+     */
+    protected CaseInstance startCaseByKey(String caseDefKey, AbstractMap.SimpleEntry<String, Object>... variableValues) {
+        Map<String, Object> vars = new HashMap<>();
+        for (AbstractMap.SimpleEntry<String, Object> var : variableValues) {
+            vars.put(var.getKey(), var.getValue());
+        }
+        CaseInstance caseInstance = caseService.createCaseInstanceByKey(caseDefKey, vars);
+        assertNotNull(caseInstance);
+        return caseInstance;
     }
 
     /**
@@ -130,11 +151,21 @@ public abstract class BaseIntegrationTest {
     }
 
     protected Task getActiveTaskInCaseByCaseDefKey(String caseDefKey) {
-        return taskService.createTaskQuery().active().caseDefinitionKey(caseDefKey).singleResult();
+        Task task = taskService.createTaskQuery().active().caseDefinitionKey(caseDefKey).singleResult();
+        assertNotNull(task);
+        return task;
+    }
+
+    protected Task getActiveTaskByTaskDefKey(String taskDefKey) {
+        Task task = taskService.createTaskQuery().active().taskDefinitionKey(taskDefKey).singleResult();
+        assertNotNull(task);
+        return task;
     }
 
     protected Task getActiveTaskInProcessByProcDefKey(String procDefKey) {
-        return taskService.createTaskQuery().processDefinitionKey(procDefKey).active().singleResult();
+        Task task =  taskService.createTaskQuery().processDefinitionKey(procDefKey).active().singleResult();
+        assertNotNull(task);
+        return task;
     }
 
     protected void assertCaseEndedByCaseInstanceId(String caseInstanceId) {
